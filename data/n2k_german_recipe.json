@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "layers": {
+    "n2k_germany": {
+      "source": "mapbox://tileset-source/natk7/n2k-germany-simple",
+      "minzoom": 4,
+      "maxzoom": 13
+    }
+  }
+}
