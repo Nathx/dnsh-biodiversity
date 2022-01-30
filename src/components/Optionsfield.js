@@ -17,7 +17,7 @@ const Optionsfield = (props) => {
     );
   };
   return (
-    <div className="toggle-group absolute top left ml12 mt12 border border--2 border--white bg-white shadow-darken10 z1">
+    <div className="toggle-group border border--2 border--white bg-white shadow-darken10 z1">
       {props.options.map(renderOptions)}
     </div>
   );

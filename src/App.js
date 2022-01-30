@@ -92,7 +92,7 @@ export default function App() {
 	const changeState = i => {
 		setActive(options[i]);
 		for (let j = 0; j < options.length; j++) {
-			if (i == j) {
+			if (i === j) {
 				map.current.setLayoutProperty(options[j].layer, 'visibility', 'visible');
 			}
 			else {
@@ -110,10 +110,15 @@ export default function App() {
 
   return (
     <div>
-
+        <header className="app-header">
+          <h1>
+            Building validation against the DNSH Biodiversity criteria (EU Taxonomy).
+          </h1>
+        </header>
       <div ref={mapContainer} className="map-container" />
       <Legend active={active} stops={active.stops} />
       <Optionsfield
+      	className="options-field"
         options={options}
         layer={active.layer}
         changeState={changeState}
