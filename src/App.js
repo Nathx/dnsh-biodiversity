@@ -108,6 +108,7 @@ export default function App() {
           <h1>
             Building validation against the DNSH Biodiversity criteria (EU Taxonomy).
           </h1>
+          Type in an address in the search box to validate the eligibility of a given building.
         </header>
       <div ref={mapContainer} className="map-container" />
       <Legend active={active} stops={active.stops} />
