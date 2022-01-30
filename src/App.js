@@ -102,12 +102,6 @@ export default function App() {
 		};
     };
 
-// 	<!--- 
-// <div className="sidebar">
-//         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-//     </div> 
-// --->
-
   return (
     <div>
         <header className="app-header">
@@ -118,7 +112,6 @@ export default function App() {
       <div ref={mapContainer} className="map-container" />
       <Legend active={active} stops={active.stops} />
       <Optionsfield
-      	className="options-field"
         options={options}
         layer={active.layer}
         changeState={changeState}
