@@ -20,6 +20,11 @@ h1 {
   font-size: x-large;
 }
 
+a {
+    color: #0000dd;
+    text-decoration: underline;
+}
+
 .toggle-group {
 z-index: 1;
 position: absolute;

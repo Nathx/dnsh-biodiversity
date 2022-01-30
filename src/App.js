@@ -106,7 +106,7 @@ export default function App() {
     <div>
         <header className="app-header">
           <h1>
-            Building validation against the DNSH Biodiversity criteria (EU Taxonomy).
+            Construction project validation against the DNSH Biodiversity criteria (<a href="https://ec.europa.eu/sustainable-finance-taxonomy/activities/activity_en.htm?reference=7.1">EU Taxonomy</a>).
           </h1>
           Type in an address in the search box to validate the eligibility of a given building.
         </header>
