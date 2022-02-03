@@ -3,7 +3,7 @@ Map tool developed for a rapid validation of construction projects against the D
 
 The deployed version of this tool can be consulted at: https://nathx.github.io/dnsh-biodiversity/
 
-The new construction is not built on one of the following:
+The new construction should not be built on one of the following:
 | Category   |      Criteria description      |  Data source |
 |----------|:-------------:|------:|
 | Soil |  Arable land and crop land with a moderate to high level of soil fertility and below ground biodiversity as referred to the EU LUCAS survey | [LUCAS](https://sdi.eea.europa.eu/catalogue/fise/api/records/75033661-550e-4c36-b1b7-b502ec545aa7) |
