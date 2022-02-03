@@ -14,6 +14,7 @@ export default function App() {
 	const [lng, setLng] = useState(10.4515);
 	const [lat, setLat] = useState(51.1657);
 	const [zoom, setZoom] = useState(5);
+	var popup = useRef(null);
 
 	const options = [
 	    {
@@ -43,26 +44,18 @@ export default function App() {
 	    {
 	      name: 'Forestry',
 	      description: 'Tree cover detected from satellite imagery.',
-	      layer: 'forest_types',
+	      layer: 'national-park',
 	      stops: [
-	        ["Tree Cover", '#22751e']
+	        ["Protected forest area", '#22751e']
 	      ]
 	    }
     ];
   const [active, setActive] = useState(options[0]);
   const eligibility_tmpl = '<strong> Address eligibility</strong>';
 
-  function assess_eligibility(e) {
-  	var pointer_results = map.current.queryRenderedFeatures(
-				e.result.center,
-				{'layers': options.map(
-				function (option) {
-					return option.layer
-				}
-			)}
-		);
-		// console.log(pointer_results);
-
+  // Assess eligibility of the selected coordinates based on layers.
+  function assess_eligibility(rendered_features) {
+  	
 		var elig_checks = [];
 
 		for (const option of options) {
@@ -72,7 +65,7 @@ export default function App() {
 				eligibility: true
 			};
 
-			for (const r of pointer_results) {
+			for (const r of rendered_features) {
 				if (r.layer.id === res.layer) {
 					res.eligibility = false;
 				}
@@ -104,16 +97,23 @@ export default function App() {
 		geocoder.on('result', e => {
 
 	      var eligibility =  eligibility_tmpl;
-	      var results = assess_eligibility(e);
-	      // console.log(results);
+	      var pointer_results = map.current.queryRenderedFeatures(
+						e.result.center,
+						{'layers': options.map(
+						function (o) {
+							return o.layer
+						}
+					)}
+				);
+	      var results = assess_eligibility(pointer_results);
+	      
 	      for (const r of results) {
 	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? 'Eligible' : 'Non-eligible') + '</li>';
 	      }
 				
-				new mapboxgl.Popup()
-					.setLngLat(e.result.center)
-					.setHTML(eligibility)
-					.addTo(map.current);
+				if (!popup) {var popup = new mapboxgl.Popup({closeButton: false}).addTo(map.current)};
+				popup.setLngLat(e.result.center)
+					.setHTML(eligibility);
 				
 		});
 
@@ -132,6 +132,29 @@ export default function App() {
 		  setLng(map.current.getCenter().lng.toFixed(4));
 		  setLat(map.current.getCenter().lat.toFixed(4));
 		  setZoom(map.current.getZoom().toFixed(2));
+		});
+	});
+
+	useEffect(() => {
+		if (!map.current) return; // wait for map to initialize
+		map.current.on('click', options.map(function (o) {return o.layer}), (e) => {
+					
+			var results = assess_eligibility(e.features);
+			console.log(results);
+			var eligibility = eligibility_tmpl;
+			for (const r of results) {
+	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? 'Eligible' : 'Non-eligible') + '</li>';
+	      };
+				
+	    const coords = e.lngLat.toArray();
+
+	    if (!popup) {var popup = new mapboxgl.Popup({closeButton: false}).addTo(map.current)};
+			popup.setLngLat(coords)
+				.setHTML(eligibility);
+				
+		  setLng(coords[0]);
+		  setLat(coords[1]);
+		  setZoom(5);
 		});
 	});
 
