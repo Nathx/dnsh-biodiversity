@@ -61,6 +61,7 @@ export default function App() {
 				}
 			)}
 		);
+		// console.log(pointer_results);
 
 		var elig_checks = [];
 
@@ -72,7 +73,6 @@ export default function App() {
 			};
 
 			for (const r of pointer_results) {
-				console.log(res.layer);
 				if (r.layer.id === res.layer) {
 					res.eligibility = false;
 				}
@@ -105,7 +105,7 @@ export default function App() {
 
 	      var eligibility =  eligibility_tmpl;
 	      var results = assess_eligibility(e);
-	      console.log(results);
+	      // console.log(results);
 	      for (const r of results) {
 	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? 'Eligible' : 'Non-eligible') + '</li>';
 	      }
@@ -120,7 +120,7 @@ export default function App() {
 		map.current.on('load', () => {
 			for (const option of options) {
 				if (active !== option) {
-					map.current.setLayoutProperty(option.layer, 'visibility', 'none');
+					map.current.setPaintProperty(option.layer, (option.layer === 'forest_types' ? 'raster-opacity' : 'fill-opacity'), 0);
 				}
 			};
 		})
@@ -139,10 +139,12 @@ export default function App() {
 		setActive(options[i]);
 		for (let j = 0; j < options.length; j++) {
 			if (i === j) {
-				map.current.setLayoutProperty(options[j].layer, 'visibility', 'visible');
+				// make active layer visible
+				map.current.setPaintProperty(options[j].layer, (options[j].layer === 'forest_types' ? 'raster-opacity' : 'fill-opacity'), 1);
 			}
 			else {
-				map.current.setLayoutProperty(options[j].layer, 'visibility', 'none');
+				// hide inactive layers
+				map.current.setPaintProperty(options[j].layer, (options[j].layer === 'forest_types' ? 'raster-opacity' : 'fill-opacity'), 0);
 
 			}
 		};
