@@ -35,11 +35,9 @@ export default function App() {
 	      description: 'Organic carbon stored in soil (g C/kg), derived from LUCAS topsoil sample dataset.',
 	      layer: 'organic_carbon',
 	      stops: [
-	        [10.6, '#d7191c'],
-	        [21.2, '#fdae61'],
-	        [33.5, '#ffff'],
-	        [51.5, '#abdda4'],
-	        [905.2, '#2b83ba'],
+	        ["Moderate", '#ffaaaa'],
+	        ["High", '#ff5555'],
+	        ["Very high", '#ff0000'],
 	      ]
 	    },
 	    {
@@ -51,7 +49,39 @@ export default function App() {
 	      ]
 	    }
     ];
-    const [active, setActive] = useState(options[0]);
+  const [active, setActive] = useState(options[0]);
+  const eligibility_tmpl = '<strong> Address eligibility</strong>';
+
+  function assess_eligibility(e) {
+  	var pointer_results = map.current.queryRenderedFeatures(
+				e.result.center,
+				{'layers': options.map(
+				function (option) {
+					return option.layer
+				}
+			)}
+		);
+
+		var elig_checks = [];
+
+		for (const option of options) {
+			var res = {
+				layer: option.layer,
+				name: option.name,
+				eligibility: true
+			};
+
+			for (const r of pointer_results) {
+				console.log(res.layer);
+				if (r.layer.id === res.layer) {
+					res.eligibility = false;
+				}
+			};
+			elig_checks.push(res);
+		}
+
+		return elig_checks;
+	};
 
 	useEffect(() => {
 		if (map.current) return; 
@@ -63,13 +93,29 @@ export default function App() {
 		  zoom: zoom
 		});
 
+		var geocoder = new MapboxGeocoder({
+			accessToken: mapboxgl.accessToken,
+			mapboxgl: mapboxgl
+		});
+
 		// Adding search box for addresses.
-		map.current.addControl(
-			new MapboxGeocoder({
-				accessToken: mapboxgl.accessToken,
-				mapboxgl: mapboxgl
-			})
-		);
+		map.current.addControl(geocoder);
+
+		geocoder.on('result', e => {
+
+	      var eligibility =  eligibility_tmpl;
+	      var results = assess_eligibility(e);
+	      console.log(results);
+	      for (const r of results) {
+	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? 'Eligible' : 'Non-eligible') + '</li>';
+	      }
+				
+				new mapboxgl.Popup()
+					.setLngLat(e.result.center)
+					.setHTML(eligibility)
+					.addTo(map.current);
+				
+		});
 
 		map.current.on('load', () => {
 			for (const option of options) {
