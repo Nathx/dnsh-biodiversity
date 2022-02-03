@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/dnsh-biodiversity/static/css/main.50462c13.chunk.css",
-    "main.js": "/dnsh-biodiversity/static/js/main.4947a9e0.chunk.js",
-    "main.js.map": "/dnsh-biodiversity/static/js/main.4947a9e0.chunk.js.map",
+    "main.css": "/dnsh-biodiversity/static/css/main.b37cb882.chunk.css",
+    "main.js": "/dnsh-biodiversity/static/js/main.0a70f66d.chunk.js",
+    "main.js.map": "/dnsh-biodiversity/static/js/main.0a70f66d.chunk.js.map",
     "runtime-main.js": "/dnsh-biodiversity/static/js/runtime-main.cb5d72ea.js",
     "runtime-main.js.map": "/dnsh-biodiversity/static/js/runtime-main.cb5d72ea.js.map",
     "static/css/2.76eb4979.chunk.css": "/dnsh-biodiversity/static/css/2.76eb4979.chunk.css",
@@ -10,14 +10,14 @@
     "static/js/2.03368e05.chunk.js.map": "/dnsh-biodiversity/static/js/2.03368e05.chunk.js.map",
     "index.html": "/dnsh-biodiversity/index.html",
     "static/css/2.76eb4979.chunk.css.map": "/dnsh-biodiversity/static/css/2.76eb4979.chunk.css.map",
-    "static/css/main.50462c13.chunk.css.map": "/dnsh-biodiversity/static/css/main.50462c13.chunk.css.map",
+    "static/css/main.b37cb882.chunk.css.map": "/dnsh-biodiversity/static/css/main.b37cb882.chunk.css.map",
     "static/js/2.03368e05.chunk.js.LICENSE.txt": "/dnsh-biodiversity/static/js/2.03368e05.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.cb5d72ea.js",
     "static/css/2.76eb4979.chunk.css",
     "static/js/2.03368e05.chunk.js",
-    "static/css/main.50462c13.chunk.css",
-    "static/js/main.4947a9e0.chunk.js"
+    "static/css/main.b37cb882.chunk.css",
+    "static/js/main.0a70f66d.chunk.js"
   ]
 }
