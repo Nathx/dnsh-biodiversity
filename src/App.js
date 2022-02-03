@@ -36,9 +36,7 @@ export default function App() {
 	      description: 'Organic carbon stored in soil (g C/kg), derived from LUCAS topsoil sample dataset.',
 	      layer: 'organic_carbon',
 	      stops: [
-	        ["Moderate", '#ffaaaa'],
-	        ["High", '#ff5555'],
-	        ["Very high", '#ff0000'],
+	        ["High", '#dd800e'],
 	      ]
 	    },
 	    {
@@ -46,12 +44,11 @@ export default function App() {
 	      description: 'Tree cover detected from satellite imagery.',
 	      layer: 'national-park',
 	      stops: [
-	        ["Protected forest area", '#22751e']
+	        ["Protected forest area", '#266a01']
 	      ]
 	    }
     ];
   const [active, setActive] = useState(options[0]);
-  const eligibility_tmpl = '<strong> Address eligibility</strong>';
 
   // Assess eligibility of the selected coordinates based on layers.
   function assess_eligibility(rendered_features) {
@@ -96,7 +93,7 @@ export default function App() {
 
 		geocoder.on('result', e => {
 
-	      var eligibility =  eligibility_tmpl;
+	      var eligibility =  '';
 	      var pointer_results = map.current.queryRenderedFeatures(
 						e.result.center,
 						{'layers': options.map(
@@ -108,7 +105,7 @@ export default function App() {
 	      var results = assess_eligibility(pointer_results);
 	      
 	      for (const r of results) {
-	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? 'Eligible' : 'Non-eligible') + '</li>';
+	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? '<b class="elig">Eligible</b>' : '<b class="non-elig">Non-eligible</b>') + '</li>';
 	      }
 				
 				if (!popup) {var popup = new mapboxgl.Popup({closeButton: false}).addTo(map.current)};
@@ -120,7 +117,7 @@ export default function App() {
 		map.current.on('load', () => {
 			for (const option of options) {
 				if (active !== option) {
-					map.current.setPaintProperty(option.layer, (option.layer === 'forest_types' ? 'raster-opacity' : 'fill-opacity'), 0);
+					map.current.setPaintProperty(option.layer, 'fill-opacity', 0);
 				}
 			};
 		})
@@ -141,9 +138,9 @@ export default function App() {
 					
 			var results = assess_eligibility(e.features);
 			console.log(results);
-			var eligibility = eligibility_tmpl;
+			var eligibility = '';
 			for (const r of results) {
-	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? 'Eligible' : 'Non-eligible') + '</li>';
+	      	eligibility += '<li>' + r.name + ': ' + (r.eligibility ? '<b class="elig">Eligible</b>' : '<b class="non-elig">Non-eligible</b>') + '</li>';
 	      };
 				
 	    const coords = e.lngLat.toArray();
@@ -163,11 +160,11 @@ export default function App() {
 		for (let j = 0; j < options.length; j++) {
 			if (i === j) {
 				// make active layer visible
-				map.current.setPaintProperty(options[j].layer, (options[j].layer === 'forest_types' ? 'raster-opacity' : 'fill-opacity'), 1);
+				map.current.setPaintProperty(options[j].layer, 'fill-opacity', 1);
 			}
 			else {
 				// hide inactive layers
-				map.current.setPaintProperty(options[j].layer, (options[j].layer === 'forest_types' ? 'raster-opacity' : 'fill-opacity'), 0);
+				map.current.setPaintProperty(options[j].layer, 'fill-opacity', 0);
 
 			}
 		};
